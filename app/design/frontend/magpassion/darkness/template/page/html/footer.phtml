@@ -1,0 +1,113 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+    $mp_fspot1 = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('footer_spot1');
+    $mp_fspot2 = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('footer_spot2');
+    $mp_fspot3 = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('footer_spot3');
+    $mp_fspot4 = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('footer_spot4');
+    //$mp_fpayment = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('footer_payment');
+    $helper = Mage::helper('cms');
+    $processor = $helper->getPageTemplateProcessor();
+    //echo $processor->filter($block->getContent()); 
+
+?>
+
+    <div class="footer-spot">
+        <div class=" container">
+            <div class="row">
+                <div class="spot-1 col-lg-3">
+                    <?php if($mp_fspot1->getContent()):?>
+                    <h3><?php echo $mp_fspot1->getTitle(); ?></h3>
+                    <div class="mp_content">
+                        <?php echo $processor->filter($mp_fspot1->getContent()); ?>
+                    </div>
+                    <?php else: ?>
+                    <h3>Footer navigation</h3>
+                    <div class="mp_content">
+                        please create static block with id = "footer_spot1".
+                    </div>
+                    <?php endif;?>
+                     <?php //echo $this->getChildHtml() ?>
+                </div>
+                <div class="spot-1 col-lg-3">
+                     <?php if($mp_fspot2->getContent()):?>
+                    <h3><?php echo $mp_fspot2->getTitle(); ?></h3>
+                    <div class="mp_content">
+                        <?php echo $processor->filter($mp_fspot2->getContent()); ?>
+                    </div>
+                    <?php else: ?>
+                    <h3>Footer navigation</h3>
+                    <div class="mp_content">
+                        please create static block with id = "footer_spot2".
+                    </div>
+                    <?php endif;?>
+                </div>
+                <div class="spot-1 col-lg-3">
+                     <?php if($mp_fspot3->getContent()):?>
+                    <h3><?php echo $mp_fspot3->getTitle(); ?></h3>
+                    <div class="mp_content">
+                        <?php echo $processor->filter($mp_fspot3->getContent()); ?>
+                    </div>
+                    <?php else: ?>
+                    <h3>Footer navigation</h3>
+                    <div class="mp_content">
+                        please create static block with id = "footer_spot3".
+                    </div>
+                    <?php endif;?>
+                </div>
+                <div class="spot-1 col-lg-3">
+                     <?php if($mp_fspot4->getContent()):?>
+                    <h3><?php echo $mp_fspot4->getTitle(); ?></h3>
+                    <div class="mp_content">
+                        <?php echo $processor->filter($mp_fspot4->getContent()); ?>
+                    </div>
+                    <?php else: ?>
+                    <h3>Footer navigation</h3>
+                    <div class="mp_content">
+                        please create static block with id = "footer_spot4".
+                    </div>
+                    <?php endif;?>
+                    <p class="bugs"><?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" onclick="this.target='_blank'"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?></p>
+                </div>
+               
+                
+            </div>
+        </div>
+    </div>
+    <div class="mp_copyright">
+        <div class=" container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <address><?php echo $this->getCopyright() ?></address>
+                </div>
+                <div class="col-lg-6 mp_backlink">
+                    Mp_Darkness theme by <a href="http://www.magpassion.com/" title="Magento Themes, Extensions, Modules, Services">MagPassion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+

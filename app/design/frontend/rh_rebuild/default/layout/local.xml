@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout>
+  <default>        
+    <reference name="head">
+        
+      <action method="addItem"><type>skin_js</type><name>js/jquery-1.11.1.min.JS</name></action>
+        <action method="addItem"><type>skin_js</type><name>js/bootstrap.min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>js/menu_resizer.js</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/bootstrap.css</name><params/><if><![CDATA[<!--[if (gte IE 9) | (IEMobile)]><!-->]]></if></action>
+    </reference>
+  </default>
+    
+</layout>

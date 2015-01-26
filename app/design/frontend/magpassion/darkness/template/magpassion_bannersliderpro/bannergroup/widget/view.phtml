@@ -1,0 +1,139 @@
+<?php
+/**
+ * Magpassion_Bannerslider extension
+ * 
+ * @category   	Magpassion
+ * @package		Magpassion_Bannerslider
+ * @copyright  	Copyright (c) 2013 by MagPassion
+ * @license	MagPassion.com - Magento Themes, Magento Extensions, Magento Modules, Free Magento Themes
+ */
+/**
+ * Banner Group view widget template
+ *
+ * @category	Magpassion
+ * @package		Magpassion_Bannerslider
+ * @author MagPassion.com
+ */
+?>
+
+<script src="<?php echo $this->getSkinUrl('magpassion_bannersliderpro/js/jquery.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->getSkinUrl('magpassion_bannersliderpro/js/jquery.noconflict.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->getSkinUrl('magpassion_bannersliderpro/js/jquery.easing.1.3.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->getSkinUrl('magpassion_bannersliderpro/js/camera.min.js'); ?>" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('magpassion_bannersliderpro/css/camera.css'); ?>" media="all" />
+
+<?php $_bannergroup = $this->getCurrentBannergroup();?>
+<?php if ($_bannergroup) :?>
+	<?php	
+		//print_r ($_bannergroup);
+		
+		$mp_banner_id = $_bannergroup->getEntity_id();
+		switch ($_bannergroup->getNavigation()) {
+			case 'none':
+				$navigation = "navigationHover: false,
+						navigation: false,
+						playPause: false,";
+				break;
+			case 'always':
+				$navigation = "navigationHover: false,
+						navigation: true,";
+				break;
+			case 'mouseover':
+			default:
+				$navigation = "navigationHover: true,
+						navigation: true,";
+				break;
+		}
+		
+		if ($_bannergroup->getPlay_pause() == 1)
+			$navigation .= "playPause: true,";
+		else 
+			$navigation .= "playPause: false,";
+	?>
+	<script type="text/javascript">
+		jQuery(function(){
+			jQuery('#camera_wrap_<?=$mp_banner_id?>').camera({
+					width: '<?=$_bannergroup->getWidth()?$_bannergroup->getWidth():400?>',
+					height: '<?=$_bannergroup->getHeight()?$_bannergroup->getHeight():250?>',
+					pauseOnClick: false,
+					hover: 0 ,
+					fx: '<?=$_bannergroup->getAnimationEffect()?>',
+					loader: '<?=$_bannergroup->getLoaderIcon()?>',
+					pagination: <?=$_bannergroup->getPagination()?$_bannergroup->getPagination():0?>,
+					thumbnails: <?=$_bannergroup->getThumbnail()?>,
+					thumbheight: <?=$_bannergroup->getThumbnail_height()?>,
+					thumbwidth: <?=$_bannergroup->getThumbnail_width()?>,
+					time: <?=$_bannergroup->getDisplayTime()?$_bannergroup->getDisplayTime():7000?>,
+					transPeriod: <?=$_bannergroup->getTransitionDuration()?$_bannergroup->getTransitionDuration():1500?>,
+					alignment: 'centerLeft',
+					autoAdvance: <?=$_bannergroup->getAutoplay()?>,
+					mobileAutoAdvance: 1,
+					portrait: 0,
+					barDirection: 'leftToRight',
+					<?=$navigation?>
+					barPosition: 'bottom'
+			});
+		}); 
+	</script>
+	
+	<style>
+		#camera_wrap_<?=$mp_banner_id?> {
+			width: <?=$_bannergroup->getWidth()?>px !important;
+			<?php if ($_bannergroup->getPagination() == 0 && $_bannergroup->getThumbnail() == 1) echo ' padding-bottom: '.($_bannergroup->getThumbnail_height() + 20).'px;'; ?>
+		}
+		
+		.camera_thumbs_cont ul {
+			height: <?=($_bannergroup->getThumbnail_height() + 10)?>px !important;
+		}
+		
+		#camera_wrap_<?=$mp_banner_id?> .camera_caption {
+			display: block;
+			position: absolute;
+		}
+		#camera_wrap_<?=$mp_banner_id?> .camera_caption > div {
+			font-size: <?=$_bannergroup->getCaption_font_size()?$_bannergroup->getCaption_font_size():14?>px;
+			background: <?=$_bannergroup->getBackground_color()?$this->hex2rgba($_bannergroup->getBackground_color(), '0.5'):'rgba(0, 0, 0, 0.5)'?>;
+			color: #<?=$_bannergroup->getCaption_color()?$_bannergroup->getCaption_color():'ffffff'?>;
+		}
+		#camera_wrap_<?=$mp_banner_id?> .camera_caption > div a {
+			color: #<?=$_bannergroup->getCaption_color()?$_bannergroup->getCaption_color():'ffffff'?>;
+			text-decoration: none;
+		}
+		#camera_wrap_<?=$mp_banner_id?> .camera_caption > div div.mpbannersliderpro_description {
+			display: block;
+			font-size: <?=$_bannergroup->getDescription_font_size()?$_bannergroup->getDescription_font_size():12?>px;
+			color: #<?=$_bannergroup->getDescription_color()?$_bannergroup->getDescription_color():'cccccc'?>;
+		}
+	</style>
+	
+	<?php $_bannersliders = $this->getBannerslides();?>
+
+	<div class="mpbannersliderpro camera_wrap <?php echo $_bannergroup->getSkin(); ?>" id="camera_wrap_<?php echo $mp_banner_id; ?>">
+		<?php
+		foreach ($_bannersliders as $item) {
+		
+			$datacaption = $item->getCaption();
+			$datades = $item->getDescription();
+			
+			$imgtarget = $_bannergroup->getDefaultTarget();
+			$imglink = $item->getLink();
+			
+			?>
+			<div data-thumb="<?php echo Mage::helper('bannersliderpro/bannerslide_image')->init($item, 'slide')->resize($_bannergroup->getThumbnail_width(), $_bannergroup->getThumbnail_height());?>" data-src="<?php echo Mage::helper('bannersliderpro/bannerslide_image')->init($item, 'slide')->resize($_bannergroup->getWidth(), $_bannergroup->getHeight());?>" data-alignment="centerLeft">
+				<?php
+				if ($datacaption) {
+					echo '<div class="camera_caption ' . $_bannergroup->getCaptionEffect() . '">';
+					if ($imglink) echo '<a href="' . $imglink . '" target="' . $imgtarget . '">'; 
+					echo '<b>'.$datacaption.'</b>';
+					if ($imglink) echo '</a>';
+					if ($datades) echo '<div class="mpbannersliderpro_description">'.$datades.'</div>';
+					echo '</div>';
+				}
+				?>
+			</div>
+		<?php } ?>
+	</div>
+	<div style="clear:both;"></div>
+	
+<?php endif;?> 
